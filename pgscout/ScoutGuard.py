@@ -38,25 +38,25 @@ class ScoutGuard(object):
                 self.acc.run()
                 self.active = False
             # if duplicate wait for master account to reconfigure this account to new login info
-           if self.acc.duplicate == 1:
-               log.info("semaphore waiting, index {}".format(self.index))
-               while self.acc.duplicate == 1:
+            if self.acc.duplicate == 1:
+                log.info("semaphore waiting, index {}".format(self.index))
+                while self.acc.duplicate == 1:
                      time.sleep(1)
                      pass
-               log.info("exited semaphore, index {}".format(self.index))
+                log.info("exited semaphore, index {}".format(self.index))
 
-           if self.acc.duplicate == 2:
-               log.info("duplicate index {} changing accounts from {} to {}".format(self.index,self.acc.username,self.newacc['username']))
-               self.acc.release(reason="removing multiplier account")
-               self.acc = self.init_scout(self.newacc, 1)
-               self.acc.duplicate = 1;
+            if self.acc.duplicate == 2:
+                log.info("duplicate index {} changing accounts from {} to {}".format(self.index,self.acc.username,self.newacc['username']))
+                self.acc.release(reason="removing multiplier account")
+                self.acc = self.init_scout(self.newacc, 1)
+                self.acc.duplicate = 1;
 
             # Scout disabled, probably (shadow)banned.
             if self.acc.duplicate == 0:
-                 if use_pgpool():
+                if use_pgpool():
                      self.acc.release(reason=self.acc.last_msg)
                      self.swap_account(self.scouts)
-                 else:
+                else:
                      # We don't have a replacement account, so just wait a veeeery long time.
                      self.acc.release(reason=self.acc.last_msg)
                      time.sleep(60*60*24*1000)
