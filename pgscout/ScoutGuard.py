@@ -63,8 +63,8 @@ class ScoutGuard(object):
                      break
 
     def swap_account(self, scouts):
-          username = self.acc.username
-          password = self.acc.password
+        username = self.acc.username
+        password = self.acc.password
         while True:
             new_acc = load_pgpool_accounts(1)
             if new_acc:
@@ -78,10 +78,10 @@ class ScoutGuard(object):
             time.sleep(60)
 
     def update_multiplier_accounts(self, scouts, username, password, acctinfo):
-         for s in range(0,len(scouts)):
-             if (scouts[s].acc.duplicate == 0) and (scouts[s].acc.username == username)  and (scouts[s].acc.password == password):  # found original account
-                 log.info("Changing {} duplicate {}-{} accounts from {} to {}".format(cfg_get('pgpool_acct_multiplier')-1,s+1,s+cfg_get('pgpool_acct_multiplier'),username,acctinfo['username']))
-                 for x in range(s+1, s+cfg_get('pgpool_acct_multiplier')):
+        for s in range(0,len(scouts)):
+            if (scouts[s].acc.duplicate == 0) and (scouts[s].acc.username == username)  and (scouts[s].acc.password == password):  # found original account
+                log.info("Changing {} duplicate {}-{} accounts from {} to {}".format(cfg_get('pgpool_acct_multiplier')-1,s+1,s+cfg_get('pgpool_acct_multiplier'),username,acctinfo['username']))
+                for x in range(s+1, s+cfg_get('pgpool_acct_multiplier')):
                      scouts[x].newacc = acctinfo
                      scouts[x].acc.duplicate = 2
-                 break
+                break
