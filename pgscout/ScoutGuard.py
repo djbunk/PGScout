@@ -14,8 +14,8 @@ class ScoutGuard(object):
         self.job_queue = job_queue
         self.active = False
         self.index = index
-         self.newacc = {}
-         self.scouts = []
+        self.newacc = {}
+        self.scouts = []
 
         # Set up initial account
         initial_account = {
